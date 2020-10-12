@@ -1,8 +1,6 @@
-package pojo;
+package application;
 
 import java.sql.*;
-
-import connexion.ConnexionMYSQL;
 
 public class Produit {
     private int id_produit;
