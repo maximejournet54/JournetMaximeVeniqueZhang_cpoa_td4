@@ -33,32 +33,32 @@ public class FenetreControler implements Initializable {
 	    	String Erreur="";
 	    	if(txt_field_nom==null || txt_field_nom.getText().trim().isEmpty()) {
 	    		valid=false;
-	    		Erreur=Erreur+"Le nom n'a pas �t� saisi\n";
+	    		Erreur=Erreur+"Le nom n'a pas ete saisi\n";
 	    	}
 	    	else
 	    		nom=txt_field_nom.getText();
 	    	if(txt_area_description==null || txt_area_description.getText().trim().isEmpty()) {
 	    		valid=false;
-	    		Erreur=Erreur+"La description n'a pas �t� saisi\n";
+	    		Erreur=Erreur+"La description n'a pas ete saisi\n";
 	    	}
 	    	else
 	    		description = txt_area_description.getText();
 	    	if(txt_field_tarif==null || txt_field_tarif.getText().trim().isEmpty()) {
 	    		valid=false;
-	    		Erreur=Erreur+"Le tarif n'a pas �t� saisi\n";
+	    		Erreur=Erreur+"Le tarif n'a pas ete saisi\n";
 	    	}
 	    	else
 	    		try {
 	    			tarif= Double.parseDouble(txt_field_tarif.getText());
 	    		}catch (Exception e) {
-	    			Erreur=Erreur+"Ce n'est pas un tarif qui a �t� saisi\n";
+	    			Erreur=Erreur+"Ce n'est pas un tarif qui a ete saisi\n";
 				}
 	        //id_categorie=cbx_categorie.getValue().hashCode();
 	        if(!valid) {
 	        	lbl_description.setText(Erreur);
 	        }
 	        else
-	        	lbl_description.setText("Vous avez saisi "+nom+" " +description+ " " + tarif+" euros" + "" +cbx_categorie.getValue());
+	        	lbl_description.setText("Vous avez saisi "+nom+" " +description+ " " + tarif+" euros" + " " +cbx_categorie.getValue());
 	        	
 	        
 	        
