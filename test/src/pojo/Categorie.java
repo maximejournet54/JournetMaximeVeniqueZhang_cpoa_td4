@@ -1,9 +1,12 @@
-package application;
+package pojo;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+
+import connexion.ConnexionMYSQL;
 
 public class Categorie {
     private int id_categorie;
@@ -50,9 +53,8 @@ public class Categorie {
 	{
 		this.visuel=visuel;
 	}
-
+  
     public static void create(Object T){
-
         try {
             Categorie c=(Categorie) T;
             Connection laConnexion = ConnexionMYSQL.creeConnexion();
@@ -90,6 +92,7 @@ public class Categorie {
             System.out.println("Probleme select:" +sqle.getMessage());
         }
     }
+    
     public static void AfficherCategorie() {
         try {
             Connection laConnexion = ConnexionMYSQL.creeConnexion();
