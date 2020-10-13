@@ -19,21 +19,48 @@ import javafx.scene.control.TextField;
 
 
 public class FenetreControler implements Initializable {
-	 @FXML private TextField txt_field_nom,txt_field_tarif;
-	 @FXML private TextArea txt_area_description;
+	 @FXML private TextField txt_field_nom=null,txt_field_tarif=null;
+	 @FXML private TextArea txt_area_description=null;
 	 @FXML private ChoiceBox<Categorie> cbx_categorie;
-	 @FXML private Label lbl_description;
+	 @FXML private Label lbl_description=null;
 	 private int id_produit,id_categorie;
 	 private String nom,description,visuel;
 	 private double tarif;
 
 	    @FXML
 	    public void click_btn() {
-	        nom = txt_field_nom.getText();
-	        description = txt_area_description.getText();
-	        tarif= Double.parseDouble(txt_field_tarif.getText());
+	    	boolean valid=true;
+	    	String Erreur="";
+	    	if(txt_field_nom==null || txt_field_nom.getText().trim().isEmpty()) {
+	    		valid=false;
+	    		Erreur=Erreur+"Le nom n'a pas �t� saisi\n";
+	    	}
+	    	else
+	    		nom=txt_field_nom.getText();
+	    	if(txt_area_description==null || txt_area_description.getText().trim().isEmpty()) {
+	    		valid=false;
+	    		Erreur=Erreur+"La description n'a pas �t� saisi\n";
+	    	}
+	    	else
+	    		description = txt_area_description.getText();
+	    	if(txt_field_tarif==null || txt_field_tarif.getText().trim().isEmpty()) {
+	    		valid=false;
+	    		Erreur=Erreur+"Le tarif n'a pas �t� saisi\n";
+	    	}
+	    	else
+	    		try {
+	    			tarif= Double.parseDouble(txt_field_tarif.getText());
+	    		}catch (Exception e) {
+	    			Erreur=Erreur+"Ce n'est pas un tarif qui a �t� saisi\n";
+				}
 	        //id_categorie=cbx_categorie.getValue().hashCode();
-	        lbl_description.setText("Vous avez saisi "+nom+" " +description+ " " + tarif+" euros" + "" +cbx_categorie.getValue());
+	        if(!valid) {
+	        	lbl_description.setText(Erreur);
+	        }
+	        else
+	        	lbl_description.setText("Vous avez saisi "+nom+" " +description+ " " + tarif+" euros" + "" +cbx_categorie.getValue());
+	        	
+	        
 	        
 	        
 	        
