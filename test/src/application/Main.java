@@ -19,7 +19,7 @@ public class Main extends Application {
 			Node root = fxmlLoader.load();
 			
 			Scene scene = new Scene((VBox) root, 600, 400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Ma première fenêtre JavaFX");
