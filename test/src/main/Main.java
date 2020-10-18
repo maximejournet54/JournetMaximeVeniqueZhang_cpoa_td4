@@ -23,7 +23,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
 			
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Ma première fenêtre JavaFX");
+			primaryStage.setTitle("Ajout d'un produit");
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,16 +1,16 @@
-package dao;
+package dao.listememoire;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.modele.ClientDAO;
 import pojo.Client;
 
-public class ListeMemoireClientDAO extends MYSQLClientDAO{
+public class ListeMemoireClientDAO implements ClientDAO{
     private static ListeMemoireClientDAO instance;
 	private List<Client> donnees;
 
 	public static ListeMemoireClientDAO getInstance() {
-
 		if (instance == null) {
 			instance = new ListeMemoireClientDAO();
 		}
@@ -19,20 +19,22 @@ public class ListeMemoireClientDAO extends MYSQLClientDAO{
 
 	private ListeMemoireClientDAO() {
 		this.donnees = new ArrayList<Client>();
-		this.donnees.add(new Client(5, "Journet", "Maxime", "journet9u@ul", "mdp", 4, "rue Belle Isle", 57000, "Metz", "France"));
+		this.donnees.add(new Client(1, "LAROCHE", "Pierre"));
 	}
 
-	public boolean create(Client objet) {
-		objet.setId_client(3);
-		// Ne fonctionne que si l'objet métier est bien fait...
+	public boolean create(Client objet) throws IllegalArgumentException {
+		objet.setId(2);
+		// Ne fonctionne que si l'objet metier est bien fait...
 		while (this.donnees.contains(objet)) {
-			objet.setId_client(objet.getId_client() + 1);
+			objet.setId(objet.getId() + 1);
 		}
-		boolean ok = this.donnees.add(objet);
+		boolean ok = this.donnees.add(objet);	
+		if (!ok)
+			throw new IllegalArgumentException("Erreur lors de la creation du client");		
 		return ok;
 	}
 
-	public boolean update(Client objet) {
+	public boolean update(Client objet) throws IllegalArgumentException {
 		// Ne fonctionne que si l'objet métier est bien fait...
 		int idx = this.donnees.indexOf(objet);
 		if (idx == -1) {
@@ -43,8 +45,8 @@ public class ListeMemoireClientDAO extends MYSQLClientDAO{
 		return true;
 	}
 
-	public boolean delete(Client objet) {
-		Client supprime;
+	public boolean delete(Client objet) throws IllegalArgumentException {
+		Client supprime=null;
 		// Ne fonctionne que si l'objet métier est bien fait...
 		int idx = this.donnees.indexOf(objet);
 		if (idx == -1) {
@@ -55,11 +57,11 @@ public class ListeMemoireClientDAO extends MYSQLClientDAO{
 		return objet.equals(supprime);
 	}
 
-	public Client getById(int id) {
+	public Client getById(int id) throws IllegalArgumentException {
 		// Ne fonctionne que si l'objet métier est bien fait...
-		int idx = this.donnees.indexOf(new Client(id, "Journet", "Maxime", "journet9u@ul", "mdp", 4, "rue Belle Isle", 57000, "Metz", "France"));
+		int idx = this.donnees.indexOf(new Client(id, "TEST", "Test"));
 		if (idx == -1) {
-			throw new IllegalArgumentException("Aucun client ne possède cet identifiant");
+			throw new IllegalArgumentException("Aucun client ne possede cet identifiant");
 		} else {
 			return this.donnees.get(idx);
 		}

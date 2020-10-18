@@ -1,150 +1,113 @@
 package pojo;
 
-import java.sql.*;
-
-import connexion.ConnexionMYSQL;
+import connexion.Persistance;
+import dao.factory.DAOFactory;
 
 public class Produit {
-    private int id_produit;
-    private String nom;
-    private String description;
-    private double tarif;
-    private String visuel;
-    private int id_categorie;
+  private int id ;
+  private String nom;
+  private String description;
+  private float tarif;
+  private String visuel;
+  private int idCateg; 
  
-    public Produit(int id_produit, String nom, String description, double tarif, String visuel, int id_categorie) {
-		this.id_produit = id_produit;
-		this.nom = nom;
-		this.description = description;
-		this.tarif = tarif;
-		this.visuel = visuel;
-		this.id_categorie = id_categorie;
-    }
-    
-    public Produit(int id_produit) {
-		this.id_produit=id_produit;
-	}
+  public Produit(int id, String nom, String description, float tarif, String visuel, int idCateg) {
+    super();
+    this.setId(id);
+    this.setNom(nom);
+    this.setDescription(description); 
+    this.setTarif(tarif);
+    this.setVisuel(visuel);
+    this.setIdCateg(idCateg); 
+  }
 
-	
+  public int getId() {
+  return id;
+  }
 
-	public String getNom() {
-		return nom;
-    }
+  public void setId(int id) {
+  if (id>0) this.id=id;
+  }
 
-    public void setNom(String nom) {
-		this.nom = nom;
-	}
-    
-    public String getDescription() {
-		return description;
-    }
+  public String getNom() {
+  return nom;
+  }
 
-    public void setDescription(String description) {
-		this.description = description;
-	}
-    
-    public double getTarif() {
-		return tarif;
-    }
+  public void setNom(String nom) {
+  if (nom == null || nom.trim().length() == 0) {
+    throw new IllegalArgumentException("Nom vide !");
+  }
+  this.nom = nom;
+  }
 
-    public void setTarif(float tarif) {
-		this.tarif = tarif;
-	}
-    
-    public String getVisuel() {
-		return visuel;
-    }
+  public String getDescription() {
+  return description;
+  }
 
-    public void setVisuel(String visuel) {
-		this.visuel = visuel;
-	}
-    
-    public int getId_categorie() {
-		return id_categorie;
-    }
+  public void setDescription(String description) {
+  if (description == null || description.trim().length() == 0) {
+    throw new IllegalArgumentException("Description vide !");
+  }
+  this.description=description;
+  }
 
-    public void setId_categorie(int id_categorie) {
-		this.id_categorie = id_categorie;
-	}
+  public float getTarif() {
+  return tarif;
+  }
 
-    public int getId_produit() {
-		return id_produit;
-    }
+  public void setTarif(float tarif) {
+  if (tarif > 0) this.tarif = tarif;
+  }
 
-    public void setId_produit(int id_produit) {
-        this.id_produit=id_produit;
-	}
+  public String getVisuel() {
+  return visuel;
+  }
 
-	public static void create(Object T){
-        try {
-            Produit p=(Produit) T;
-            Connection laConnexion = ConnexionMYSQL.creeConnexion();
-            Statement requete= laConnexion.createStatement();
-            String query="INSERT INTO Produit VALUES("+p.id_produit+","+p.nom+", "+p.description+","+p.tarif+","+p.visuel+", "+p.id_categorie+")";
-            requete.executeUpdate(query);
-            System.out.println("Produit ajoute");
-        } catch(SQLException sqle){
-            System.out.println("Pb select:" +sqle.getMessage());
-        }
-    }
+  public void setVisuel(String visuel) {
+  if (visuel == null || visuel.trim().length() == 0) {
+    throw new IllegalArgumentException("Visuel vide !");
+  }
+  this.visuel = visuel;
+  }
 
-    public static void delete(Object T){
-        try {
-            Produit p=(Produit) T;
-            Connection laConnexion = ConnexionMYSQL.creeConnexion();
-            Statement requete= laConnexion.createStatement();
-            String query="delete from Produit where id_produit="+p.id_produit;
-            requete.executeUpdate(query);
-            System.out.println("produit supprime");
-        } catch(SQLException sqle){
-            System.out.println("Probleme select:" +sqle.getMessage());
-        }
-    }
+  public int getIdCateg() {
+  return idCateg;
+  }
 
-    public static void update(Object T){
-        try {
-            Produit p=(Produit) T;
-            Connection laConnexion = ConnexionMYSQL.creeConnexion();
-            Statement requete= laConnexion.createStatement();
-            String query="update from Produit where id_produit="+p.id_produit;
-            requete.executeUpdate(query);
-            System.out.println("produit mis a jour");
-        } catch(SQLException sqle){
-            System.out.println("Probleme select:" +sqle.getMessage());
-        }
-    }
+  public void setIdCateg(int idCateg) {
+  if (idCateg > 0) this.idCateg = idCateg;
+  }
 
-    public static void AfficherProduit() {
-        try {
-            Connection laConnexion = ConnexionMYSQL.creeConnexion();
-            Statement requete = laConnexion.createStatement();
-            ResultSet res = requete.executeQuery("select * from Produit");
-            while (res.next()) {
-                int id = res.getInt("id_produit");
-                String nom = res.getString("nom");
-                String description = res.getString("description");
-                double tarif = res.getDouble("tarif");
-                String visuel = res.getString("visuel");
-                int id_categorie = res.getInt("id_categorie");
-                System.out.println(id);
-                System.out.println(nom);
-                System.out.println(description);
-                System.out.println(tarif);
-                System.out.println(visuel);
-                System.out.println(id_categorie);
-                System.out.println(new Produit( res.getInt("id_produit"),
-                res.getString("nom"),res.getString("description"),res.getDouble("tarif"),res.getString("visuel"),res.getInt("id_categorie")));
 
-            }
-            if (res != null)
-                res.close();
-            if (requete != null)
-                requete.close();
-            if (laConnexion != null)
-                laConnexion.close();
-        } catch (SQLException sqle) {
-            System.out.println("Pb dans select " + sqle.getMessage());
-        }
-    }
+  @Override
+  public boolean equals(Object obj) {
+  if (this == obj)
+    return true;
+  if (obj == null)
+    return false;
+  if (getClass() != obj.getClass())
+    return false;
+  Produit other = (Produit) obj;
+  if (id != other.id)
+    return false;
+  return true;
+  }
+
+  @Override
+  public String toString() {
+  return "Produit [id=" + id + ", nom=" + nom + ", description=" + description + ", tarif=" + tarif + ", visuel="
+      + visuel + ", idCateg=" + idCateg + "]";
+  }  
+
+  public String toStringUtilisateur() {
+  String nomCateg = "";
+  try {
+    nomCateg = DAOFactory.getDAOFactory(Persistance.LISTE_MEMOIRE).getCategorieDAO().getById(idCateg).getTitre();
+  } catch (Exception e) {
+    e.printStackTrace();
+  }
+  return nom + " (" + nomCateg + "), " + tarif + " euro";
+  }
+
 }
 

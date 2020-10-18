@@ -1,11 +1,12 @@
-package dao;
+package dao.listememoire;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.modele.CategorieDAO;
 import pojo.Categorie;
 
-public class ListeMemoireCategorieDAO extends MYSQLCategorieDAO {
+public class ListeMemoireCategorieDAO implements CategorieDAO {
     private static ListeMemoireCategorieDAO instance;
 	private List<Categorie> donnees;
 
@@ -17,41 +18,40 @@ public class ListeMemoireCategorieDAO extends MYSQLCategorieDAO {
 	}
 
 	private ListeMemoireCategorieDAO() {
-		this.donnees = new ArrayList<Categorie>();
-		this.donnees.add(new Categorie(1, "Pulls", "pulls.png"));
+		donnees = new ArrayList<Categorie>();
+		donnees.add(new Categorie(1, "Pulls", "pulls.png"));
+		donnees.add(new Categorie(2, "Bonnets", "bonnets.png"));
 	}
 
-	public boolean create(Categorie objet) {
-		objet.setId_categorie(3);
-		// Ne fonctionne que si l'objet métier est bien fait...
-		while (this.donnees.contains(objet)) {
-			objet.setId_categorie(objet.getId_categorie() + 1);
+	public boolean create(Categorie categorie) {
+		categorie.setId(3);
+		// Ne fonctionne que si l'objet metier est bien fait...
+		while (donnees.contains(categorie)) {
+			categorie.setId(categorie.getId() + 1);
 		}
-		boolean ok = this.donnees.add(objet);
+		boolean ok = donnees.add(categorie);
+		
 		return ok;
 	}
 
-	public boolean update(Categorie objet) {
-		// Ne fonctionne que si l'objet métier est bien fait...
-		int idx = this.donnees.indexOf(objet);
+	@Override
+	public boolean update(Categorie objet) {	
+		// Ne fonctionne que si l'objet metier est bien fait...
+		int idx = donnees.indexOf(objet);
 		if (idx == -1) {
 			throw new IllegalArgumentException("Tentative de modification d'une categorie inexistante");
-		} else {
-			this.donnees.set(idx, objet);
+		} else {	
+			donnees.set(idx, objet);
 		}
 		return true;
 	}
 
 	public boolean delete(Categorie objet) {
-		Categorie supprime;
-		// Ne fonctionne que si l'objet métier est bien fait...
-		int idx = this.donnees.indexOf(objet);
-		if (idx == -1) {
+		// Ne fonctionne que si l'objet metier est bien fait...
+		boolean idx = donnees.remove(objet);
+		if (!idx) 
 			throw new IllegalArgumentException("Tentative de suppression d'une categorie inexistante");
-		} else {
-			supprime = this.donnees.remove(idx);
-		}
-		return objet.equals(supprime);
+		return idx;
 	}
 
 	public Categorie getById(int id) {
@@ -60,7 +60,7 @@ public class ListeMemoireCategorieDAO extends MYSQLCategorieDAO {
 		if (idx == -1) {
 			throw new IllegalArgumentException("Aucune categorie ne possède cet identifiant");
 		} else {
-			return this.donnees.get(idx);
+			return donnees.get(idx);
 		}
 	}
 
